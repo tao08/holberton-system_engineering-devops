@@ -1,0 +1,1 @@
+leard shell and bash
