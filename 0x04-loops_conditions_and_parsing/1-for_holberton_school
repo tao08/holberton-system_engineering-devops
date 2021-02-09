@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Basic for loop
+
+for ((x=1; x<=10; x++))
+do
+	echo Holberton School
+
+done
