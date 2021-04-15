@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# install and configure HAprozy in the server
+sudo apt-get -y update
+sudo apt-get -y install haproxy
+
+sudo cat >> /etc/haproxy/haproxy.cfg << EOL
+frontend front
+    bind *:80
+    mode http
+    default_backend back
+backend back
+    balance roundrobin
+    server 1823-web-01 35.196.184.160:80 check
+    server 1823-web-02 54.173.165.205:80 check
+EOL
+sudo /etc/init.d/haproxy restart

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# We'll configure a new web server as we did before
-# But adding a header variable with the host's name
+# We ll configure a new web server as we did before
+# But adding a header variable with the hosts name
 
 # First we install Nginx and set up the HTTP
 sudo apt update &&
@@ -8,7 +8,7 @@ sudo apt -y install nginx
 sudo ufw allow 'Nginx HTTP'
 
 # Then set up index content
-sudo echo 'Holberton School for the win!' > /var/www/html/index.html
+sudo echo 'Holberton School!' > /var/www/html/index.html
 
 # Set up redirect_me
 sudo sed -i "/server_name _;/ a rewrite ^/redirect_me https://twitter.com/Codesectest;" /etc/nginx/sites-available/default
@@ -18,7 +18,7 @@ sudo echo "Ceci n'est pas une page" > /var/www/html/404.html
 sudo sed -i '/listen 80 default_server/a error_page 404 /404.html;' /etc/nginx/sites-available/default
 
 # Set the variable that will tell us which server is serving us
-sudo sed -i "/listen 80 default_server/a add_header X-Served-By \"$HOSTNAME\";" /etc/nginx/sites-available/default
+sudo sed -i "/listen 80 default_server/a add_header X-Served-By $HOSTNAME ; " /etc/nginx/sites-available/default
 
 # Run it!
 sudo service nginx start
