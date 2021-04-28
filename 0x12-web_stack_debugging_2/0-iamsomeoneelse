@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# Shows the user passed as argument
+USER="$1"
+sudo -u "$USER" whoami
