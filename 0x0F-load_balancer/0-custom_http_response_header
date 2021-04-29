@@ -1,24 +1,22 @@
 #!/usr/bin/env bash
-# We ll configure a new web server as we did before
-# But adding a header variable with the hosts name
+# Configure Nginx so that its HTTP response contains a custom header
 
-# First we install Nginx and set up the HTTP
-sudo apt update &&
-sudo apt -y install nginx
-sudo ufw allow 'Nginx HTTP'
-
-# Then set up index content
-sudo echo 'Holberton School!' > /var/www/html/index.html
-
-# Set up redirect_me
-sudo sed -i "/server_name _;/ a rewrite ^/redirect_me https://twitter.com/Codesectest;" /etc/nginx/sites-available/default
-
-# Display message in case error 404
-sudo echo "Ceci n'est pas une page" > /var/www/html/404.html
-sudo sed -i '/listen 80 default_server/a error_page 404 /404.html;' /etc/nginx/sites-available/default
-
-# Set the variable that will tell us which server is serving us
-sudo sed -i "/listen 80 default_server/a add_header X-Served-By $HOSTNAME ; " /etc/nginx/sites-available/default
-
-# Run it!
-sudo service nginx start
+sudo apt-get -y update
+sudo apt-get -y install nginx
+sudo chmod 777 /var/www/html/index.nginx-debian.html
+echo "Holberton School" > /var/www/html/index.nginx-debian.html
+echo "server {
+    listen 80 default_server;
+    location /redirect_me {
+    return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
+    }
+    error_page 404 /404.html;
+    location = /404.html {
+    internal;
+    }
+    add_header X-Served-By $HOSTNAME;
+    listen [::]:80 default_server;
+    root   /var/www//html;
+    index index.nginx-debian.html index.nginx-debian.html;
+}" > /etc/nginx/sites-available/default
+sudo service nginx restart
